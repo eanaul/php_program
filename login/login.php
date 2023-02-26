@@ -1,0 +1,192 @@
+<?php
+session_start();
+
+if( isset($_SESSION["submit"])){
+    header("location: admin.php");
+    exit;
+}
+
+$server = mysqli_connect("localhost", "root", "", "login");
+
+
+
+if(isset($_POST["submit"])){
+
+    $username = $_POST["username"];
+    $password = $_POST["password"];
+
+$sql = "SELECT * FROM input
+        WHERE username = '$username' AND password = '$password'";
+    
+
+    $query = mysqli_query($server, $sql);
+
+if(mysqli_num_rows($query)){
+    echo "
+        <script>
+        alert('alright you did it!')
+        </script>
+        ";
+
+        $_SESSION["submit"] = true;
+        header("location: admin.php");
+        exit;
+} else {
+    $error = true;
+}
+
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login dulu, ya!</title>
+
+    <style>
+         *, html, body{
+        margin: 0;
+        padding: 0;
+        
+        }
+
+        body{
+        background-image: url(img/seigaiha.webp);
+        background-size: 2000px;
+        background-repeat: no-repeat;
+        }
+
+        .kepala{
+            display: flex;
+            justify-content: center;
+            margin-top: 200px;
+        }
+
+        .container{
+            background-color: white;
+            display: inline-block;
+            
+            overflow: hidden;
+            padding: 50px 50px;
+            border-radius: 10px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 5%);
+            
+        }
+
+        .judul{
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 25px;
+            font-family: sans-serif;
+        }
+
+        .nav{
+            padding-bottom: 20px;
+        }
+
+        .nav ul li{
+            padding: 10px 5px;
+            list-style: none;
+            border-bottom: 2px solid royalblue;
+            text-decoration: none;
+        }
+
+        .nav ul li input{
+            background: none;
+            outline: none;
+        }
+
+        .button{
+            background-color: royalblue;
+            display: inline-block;
+            margin-left: 68px;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 20px;
+            justify-content: 50px;
+        }
+
+        .button:hover{
+            cursor: pointer;
+
+        }
+
+        .button input{
+            background-color: royalblue;
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn{
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+            font-family: sans-serif;
+            padding: 3px;
+            border: none;
+            outline: none;
+            background: none;
+        }
+
+        .btn:hover{
+            cursor: pointer;
+        }
+
+        .search-txt{
+            border: none;
+            background: none;
+            outline: none;
+        }
+
+        .gambar img{
+            width: 70px;
+            margin-left: 70px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div class="kepala">
+        <div class="container">
+
+        <div class="gambar">
+            <img src="img/WIKRAMA LOGO 2.png" alt="">
+        </div>
+
+        <div class="rata">
+            <h1 class="judul">Login to continue</h1>
+        </div>
+
+<form action="" method="post">
+<div class="nav">
+
+        <center>
+        <?php if(isset($error)) { ?>
+    <p style="color: red; font-style: italic; padding-bottom: 5px;">username / password salah!</p>
+        <?php } ?>
+        </center>
+
+    <ul>
+        <li><input class="search-txt" type="text" name="username" placeholder="Username"></li>
+        <li><input class="search-txt" type="password" name="password" placeholder="Password"></li>
+    </ul>
+</div>
+
+    <div class="button">
+        <button class="btn" type="submit" name="submit"> Login</button>
+    </div>
+    <center>
+        <p style="text-style: italic; padding-top: 3rem;">belum punya akun? <a href="registrasi.php">Daftar</a></p>
+    </center>
+        </form>
+  
+
+</body>
+</html>
